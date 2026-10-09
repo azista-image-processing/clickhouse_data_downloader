@@ -7,4 +7,5 @@ author=Azista Industries
 about=Pick an AOI with the native QGIS extent widget, write a custom SQL query, save the result as CSV and load it as a layer.
 tags=clickhouse, csv, download
 category=Database
+icon=icon.svg
 experimental=True

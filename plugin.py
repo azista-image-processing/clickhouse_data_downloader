@@ -9,6 +9,7 @@ from qgis.core import (Qgis, QgsApplication, QgsCoordinateReferenceSystem, QgsCo
                        QgsProject, QgsTask, QgsVectorLayer)
 from qgis.gui import QgsExtentWidget
 from qgis.PyQt.QtCore import QDateTime, QSettings, pyqtSignal
+from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import (QAction, QCheckBox, QComboBox, QDateTimeEdit, QDialog, QFileDialog, QHBoxLayout, QLabel,
                                  QLineEdit, QMessageBox, QPlainTextEdit, QPushButton, QVBoxLayout, QWidget)
 
@@ -155,6 +156,7 @@ class Dialog(QDialog):
         self.iface = iface
         self.client = None
         self.setWindowTitle('ClickHouse Data Downloader')
+        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), 'icon.svg')))
         self.resize(600, 900)
         self.host, self.port, self.user, self.password = QLineEdit(), QLineEdit(), QLineEdit(), QLineEdit()
         self.password.setEchoMode(QLineEdit.Password)
@@ -355,7 +357,7 @@ class ClickhouseDownloader:
         self.dlg = None
 
     def initGui(self):
-        icon = QgsApplication.getThemeIcon('/mActionAddOgrLayer.svg')
+        icon = QIcon(os.path.join(os.path.dirname(__file__), 'icon.svg'))
         self.action = QAction(icon, 'ClickHouse Data Downloader', self.iface.mainWindow())
         self.action.triggered.connect(self.show)
         # toolbar button + Plugins menu (the Database menu can be hidden in some profiles)

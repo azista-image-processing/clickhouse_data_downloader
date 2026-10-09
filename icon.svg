@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <mask id="cutLime" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+      <rect width="100" height="100" fill="#fff"/>
+      <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#000" transform="rotate(-18 50 50)"/>
+    </mask>
+  </defs>
+  <rect width="100" height="100" rx="20" fill="none"/>
+  <g>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#E8D84A" transform="rotate(-18 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#E8973A" transform="rotate(18 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#E0602E" transform="rotate(54 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#D9352F" transform="rotate(90 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#C93C8A" transform="rotate(126 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#6B3F8C" transform="rotate(162 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#2F7FC1" transform="rotate(198 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#3AAFB0" transform="rotate(234 50 50)"/>
+    <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#1AA44F" transform="rotate(270 50 50)"/>
+    <g mask="url(#cutLime)">
+      <path d="M50 50 L50 10 A20 20 0 0 1 50 50 Z" fill="#A8C94A" transform="rotate(306 50 50)"/>
+    </g>
+  </g>
+  <path d="M36 40 L36 62 A14 5 0 0 0 64 62 L64 40 A14 5 0 0 0 36 40 Z" fill="#FFF" stroke="#0B2A4A" stroke-width="3"/>
+  <ellipse cx="50" cy="40" rx="14" ry="5" fill="#C9DBEE" stroke="#0B2A4A" stroke-width="2"/>
+  <path d="M36 47.5 A14 5 0 0 0 64 47.5 M36 55 A14 5 0 0 0 64 55" fill="none" stroke="#0B2A4A" stroke-width="2"/>
+  <circle cx="76" cy="76" r="16" fill="#FFF" stroke="#0B2A4A" stroke-width="4"/>
+  <line x1="76" y1="67" x2="76" y2="83" stroke="#0B2A4A" stroke-width="4" stroke-linecap="round"/>
+  <polyline points="70,78 76,84 82,78" fill="none" stroke="#0B2A4A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
