@@ -1,0 +1,11 @@
+[general]
+name=ClickHouse Data Downloader
+qgisMinimumVersion=3.0
+description=Download ClickHouse query results (optionally within an AOI) as CSV and add them to QGIS
+version=0.1.0
+author=Suhora Technologies
+email=support@suhora.com
+about=Pick an AOI with the native QGIS extent widget, write a custom SQL query, save the result as CSV and load it as a layer.
+tags=clickhouse, csv, download
+category=Database
+experimental=True
