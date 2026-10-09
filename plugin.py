@@ -1,5 +1,7 @@
 import csv
+import importlib
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -18,14 +20,49 @@ LIBS = os.path.join(os.path.dirname(__file__), 'libs')
 sys.path.append(LIBS)
 
 
+def _pip_install():
+    """Install clickhouse-connect into LIBS. Tries `python -m pip`, then pip in-process; raises with pip's output."""
+    os.makedirs(LIBS, exist_ok=True)
+    args = ['install', '--target', LIBS, 'clickhouse-connect']
+    # PIP_USER=0: a pip.ini with `user = true` (common in OSGeo4W) makes --target fail
+    env = dict(os.environ, PIP_USER='0')
+    # sys.executable is qgis-bin on Windows, so look for the bundled python next to the prefix
+    candidates = [os.path.join(sys.prefix, 'python.exe'), getattr(sys, '_base_executable', ''), shutil.which('python')]
+    if os.name != 'nt':
+        candidates.insert(0, sys.executable)
+    errors = []
+    for py in dict.fromkeys(c for c in candidates if c and os.path.exists(c) and 'qgis' not in os.path.basename(c).lower()):
+        try:
+            r = subprocess.run([py, '-m', 'pip', *args], capture_output=True, text=True, env=env,
+                               creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+        except OSError as e:
+            errors.append(f'{py}: {e}')
+            continue
+        if r.returncode == 0:
+            return
+        errors.append(f'{py}: {(r.stdout + r.stderr)[-800:]}')
+    try:  # fallback: pip inside the QGIS interpreter itself
+        from pip._internal.cli.main import main as pip_main
+        old, os.environ['PIP_USER'] = os.environ.get('PIP_USER'), '0'
+        try:
+            if pip_main(args) == 0:
+                return
+        finally:
+            os.environ.pop('PIP_USER') if old is None else os.environ.update(PIP_USER=old)
+        errors.append('in-process pip returned an error (see the QGIS Python console / log)')
+    except Exception as e:
+        errors.append(f'in-process pip: {e}')
+    nl = chr(10) * 2
+    raise RuntimeError('Could not install clickhouse-connect.' + nl + nl.join(errors) + nl +
+                       'Install it manually from the OSGeo4W Shell: pip install clickhouse-connect')
+
+
 def _clickhouse_connect():
     try:
         import clickhouse_connect
     except ImportError:
-        os.makedirs(LIBS, exist_ok=True)
-        # ponytail: sys.executable is qgis-bin on Windows, so use the bundled python for pip
-        py = os.path.join(sys.prefix, 'python.exe') if os.name == 'nt' else sys.executable
-        subprocess.check_call([py, '-m', 'pip', 'install', '--target', LIBS, 'clickhouse-connect'])
+        _pip_install()
+        importlib.invalidate_caches()  # LIBS may not have existed when it was added to sys.path
         import clickhouse_connect
     return clickhouse_connect
 
